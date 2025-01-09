@@ -4,9 +4,11 @@ const ServiceForm = ({ onBack }) => {
   const [repairedBy, setRepairedBy] = useState('');
   const [repairDescription, setRepairDescription] = useState('');
   const [trailerNumber, setTrailerNumber] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     // Create the JSON payload
     const jsonPayload = {
@@ -23,7 +25,7 @@ const ServiceForm = ({ onBack }) => {
     };
 
     try {
-      const response = await fetch("https://stromzaehler-nft.yanacocha.fit.fraunhofer.de/mint-nft-to-detail", {
+      const response = await fetch("/mint-nft-to-detail", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,6 +41,8 @@ const ServiceForm = ({ onBack }) => {
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while submitting the request.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,8 +80,19 @@ const ServiceForm = ({ onBack }) => {
           />
         </div>
         <div style={formStyles.buttonContainer}>
-          <button type="button" onClick={onBack} style={formStyles.button}>Back</button>
-          <button type="submit" style={formStyles.button}>Submit</button>
+          <button type="button" onClick={onBack} style={formStyles.button} disabled={isLoading}>
+            Back
+          </button>
+          <button type="submit" style={formStyles.button} disabled={isLoading}>
+            {isLoading ? (
+              <div style={formStyles.spinnerContainer}>
+                <div style={formStyles.spinner}></div>
+                <span style={formStyles.spinnerText}>Submitting...</span>
+              </div>
+            ) : (
+              'Submit'
+            )}
+          </button>
         </div>
       </form>
     </div>
@@ -142,6 +157,54 @@ const formStyles = {
     transition: 'background-color 0.3s, transform 0.2s',
     width: '100%', // Make buttons full width
   },
+  spinnerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '10px',
+  },
+  spinner: {
+    width: '20px',
+    height: '20px',
+    border: '3px solid rgba(255, 255, 255, 0.3)',
+    borderRadius: '50%',
+    borderTopColor: '#fff',
+    animation: 'spin 1s ease-in-out infinite',
+  },
+  spinnerText: {
+    color: '#fff',
+  },
+  '@keyframes spin': {
+    to: {
+      transform: 'rotate(360deg)',
+    },
+  },
+  button: {
+    padding: '12px',
+    fontSize: '16px',
+    border: 'none',
+    borderRadius: '5px',
+    backgroundColor: '#007BFF',
+    color: 'white',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s, transform 0.2s',
+    width: '100%',
+    ':disabled': {
+      opacity: 0.7,
+      cursor: 'not-allowed',
+    },
+  },
 };
+
+// Add the keyframes animation to the document
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+document.head.appendChild(styleSheet);
 
 export default ServiceForm; 
