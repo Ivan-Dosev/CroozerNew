@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import AlertModal from './AlertModal';
 
 const ServiceForm = ({ onBack }) => {
   const [repairedBy, setRepairedBy] = useState('');
   const [repairDescription, setRepairDescription] = useState('');
   const [trailerNumber, setTrailerNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,13 +37,20 @@ const ServiceForm = ({ onBack }) => {
       });
 
       if (response.ok) {
-        alert('Service request submitted successfully!');
+        setModalMessage('Service request submitted successfully!');
+        setShowModal(true);
+        // Clear form after successful submission
+        setRepairedBy('');
+        setRepairDescription('');
+        setTrailerNumber('');
       } else {
-        alert('Failed to submit service request.');
+        setModalMessage('Failed to submit service request.');
+        setShowModal(true);
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred while submitting the request.');
+      setModalMessage('An error occurred while submitting the request.');
+      setShowModal(true);
     } finally {
       setIsLoading(false);
     }
@@ -48,6 +58,11 @@ const ServiceForm = ({ onBack }) => {
 
   return (
     <div style={formStyles.container}>
+      <AlertModal 
+        isOpen={showModal}
+        message={modalMessage}
+        onClose={() => setShowModal(false)}
+      />
       <h2 style={formStyles.title}>Service Request</h2>
       <form onSubmit={handleSubmit} style={formStyles.form}>
         <div style={formStyles.field}>

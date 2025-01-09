@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import AlertModal from './AlertModal';
 
 const SellForm = ({ onBack }) => {
   const [soldBy, setSoldBy] = useState('');
   const [trailerNumber, setTrailerNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,13 +34,19 @@ const SellForm = ({ onBack }) => {
       });
 
       if (response.ok) {
-        alert('Sale request submitted successfully!');
+        setModalMessage('Sale request submitted successfully!');
+        setShowModal(true);
+        // Clear form after successful submission
+        setSoldBy('');
+        setTrailerNumber('');
       } else {
-        alert('Failed to submit sale request.');
+        setModalMessage('Failed to submit sale request.');
+        setShowModal(true);
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred while submitting the request.');
+      setModalMessage('An error occurred while submitting the request.');
+      setShowModal(true);
     } finally {
       setIsLoading(false);
     }
@@ -45,6 +54,11 @@ const SellForm = ({ onBack }) => {
 
   return (
     <div style={formStyles.container}>
+      <AlertModal 
+        isOpen={showModal}
+        message={modalMessage}
+        onClose={() => setShowModal(false)}
+      />
       <h2 style={formStyles.title}>Sale Request</h2>
       <form onSubmit={handleSubmit} style={formStyles.form}>
         <div style={formStyles.field}>
