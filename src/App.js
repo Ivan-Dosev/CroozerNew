@@ -32,7 +32,7 @@ function App() {
       ) : (
         <>
           <img src={`${process.env.PUBLIC_URL}/croozer.png`} alt="Croozer Logo" style={styles.image} />
-          <h1 style={styles.title}>Welcome to Croozer</h1>
+          <h1 style={styles.title}>Welcome to your dashboard</h1>
           <div style={styles.buttonContainer}>
             <button style={styles.button} onClick={handleServiceClick}>Service</button>
             <button style={styles.button} onClick={handleSellClick}>Re-sell</button>
