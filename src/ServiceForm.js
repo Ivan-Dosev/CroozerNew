@@ -80,9 +80,7 @@ const ServiceForm = ({ onBack }) => {
           />
         </div>
         <div style={formStyles.buttonContainer}>
-          <button type="button" onClick={onBack} style={formStyles.button} disabled={isLoading}>
-            Back
-          </button>
+          <button type="button" onClick={onBack} style={formStyles.button} disabled={isLoading}>Back</button>
           <button type="submit" style={formStyles.button} disabled={isLoading}>
             {isLoading ? (
               <div style={formStyles.spinnerContainer}>
@@ -177,21 +175,6 @@ const formStyles = {
   '@keyframes spin': {
     to: {
       transform: 'rotate(360deg)',
-    },
-  },
-  button: {
-    padding: '12px',
-    fontSize: '16px',
-    border: 'none',
-    borderRadius: '5px',
-    backgroundColor: '#007BFF',
-    color: 'white',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s, transform 0.2s',
-    width: '100%',
-    ':disabled': {
-      opacity: 0.7,
-      cursor: 'not-allowed',
     },
   },
 };

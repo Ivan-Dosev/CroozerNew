@@ -68,9 +68,7 @@ const SellForm = ({ onBack }) => {
           />
         </div>
         <div style={formStyles.buttonContainer}>
-          <button type="button" onClick={onBack} style={formStyles.button} disabled={isLoading}>
-            Back
-          </button>
+          <button type="button" onClick={onBack} style={formStyles.button} disabled={isLoading}>Back</button>
           <button type="submit" style={formStyles.button} disabled={isLoading}>
             {isLoading ? (
               <div style={formStyles.spinnerContainer}>
