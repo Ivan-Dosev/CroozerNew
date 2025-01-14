@@ -7,6 +7,7 @@ const SellForm = ({ onBack }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [saleDate, setSaleDate] = useState(new Date().toISOString().split('T')[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,11 +18,12 @@ const SellForm = ({ onBack }) => {
       nameAttribute: "Verkauf",
       stringAttribute: [
         { trait_type: "Sold By", value: soldBy },
-        { trait_type: "Trailer Number", value: trailerNumber }
+        { trait_type: "Trailer Number", value: trailerNumber },
+        { trait_type: "Sale Date", value: saleDate }
       ],
       descriptionAttribute: "Nachweis des Verkaufs",
       addressAttribute: "0x0E183ad336D78929023c7b90af91d67DB0691347",
-      ipfsLink: "https://ipfs.io/ipfs/bafkreicjej5zal35zohduz2ljrq42e5cyubxbrmlbjqlb4hiyly2256qbi"
+      ipfsLink: "https://ipfs.io/ipfs/bafybeig5pzsui6oxpei6sn6axrspht43iglnrnq5qwnevud5isks47kfwu"
     };
 
     try {
@@ -39,6 +41,7 @@ const SellForm = ({ onBack }) => {
         // Clear form after successful submission
         setSoldBy('');
         setTrailerNumber('');
+        setSaleDate(new Date().toISOString().split('T')[0]);
       } else {
         setModalMessage('Failed to submit sale request.');
         setShowModal(true);
@@ -78,6 +81,17 @@ const SellForm = ({ onBack }) => {
             style={formStyles.input}
             value={trailerNumber}
             onChange={(e) => setTrailerNumber(e.target.value)}
+            required
+          />
+        </div>
+        <div style={formStyles.field}>
+          <label style={formStyles.label}>Sale Date:</label>
+          <input
+            type="date"
+            style={formStyles.input}
+            value={saleDate}
+            onChange={(e) => setSaleDate(e.target.value)}
+            readOnly
             required
           />
         </div>

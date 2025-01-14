@@ -8,6 +8,7 @@ const ServiceForm = ({ onBack }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [repairDate, setRepairDate] = useState(new Date().toISOString().split('T')[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,11 +21,12 @@ const ServiceForm = ({ onBack }) => {
         { trait_type: "NFT_Type", value: "Croozer" },
         { trait_type: "Repaired By", value: repairedBy },
         { trait_type: "Repair Description", value: repairDescription },
-        { trait_type: "Trailer Number", value: trailerNumber }
+        { trait_type: "Trailer Number", value: trailerNumber },
+        { trait_type: "Repair Date", value: repairDate }
       ],
       descriptionAttribute: "Nachweis der Reparatur",
       addressAttribute: "0x0E183ad336D78929023c7b90af91d67DB0691347",
-      ipfsLink: "https://ipfs.io/ipfs/bafkreicjej5zal35zohduz2ljrq42e5cyubxbrmlbjqlb4hiyly2256qbi"
+      ipfsLink: "https://ipfs.io/ipfs/bafybeig5pzsui6oxpei6sn6axrspht43iglnrnq5qwnevud5isks47kfwu"
     };
 
     try {
@@ -43,6 +45,7 @@ const ServiceForm = ({ onBack }) => {
         setRepairedBy('');
         setRepairDescription('');
         setTrailerNumber('');
+        setRepairDate('');
       } else {
         setModalMessage('Failed to submit service request.');
         setShowModal(true);
@@ -91,6 +94,17 @@ const ServiceForm = ({ onBack }) => {
             style={formStyles.input}
             value={trailerNumber}
             onChange={(e) => setTrailerNumber(e.target.value)}
+            required
+          />
+        </div>
+        <div style={formStyles.field}>
+          <label style={formStyles.label}>Repair Date:</label>
+          <input
+            type="date"
+            style={formStyles.input}
+            value={repairDate}
+            onChange={(e) => setRepairDate(e.target.value)}
+            readOnly
             required
           />
         </div>
